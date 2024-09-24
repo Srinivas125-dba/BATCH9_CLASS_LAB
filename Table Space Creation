@@ -1,0 +1,551 @@
+login as: schava_r
+Pre-authentication banner message from server:
+| #############################################################
+| ##  WARNING!  THIS IS A PROTECTED SVBFG COMPUTER SYSTEM.   ##
+| #############################################################
+| ##                                                         ##
+| ##  This system is for the use of the employees and other  ##
+| ##  authorized users of SVB Financial Group (SVBFG) only.  ##
+| ##                                                         ##
+| ##  By accessing and using the computer system you to      ##
+| ##  agree to comply with any and all policies and          ##
+| ##  procedures concerning use of SVBFG computing assets    ##
+| ##  information and systems. Please contact any of the     ##
+| ##  following groups for those policies and procedures:    ##
+| ##  the Security Office, Information Technology,           ##
+| ##  Human Resources Department, or Legal Department.       ##
+| ##  Those policies and procedures may be found on the      ##
+| ##  SVBFG portal. Further use of SVBFG systems and         ##
+| ##  equipment is monitored including keystrokes electronic ##
+| ##  messaging traffic and internet use.                    ##
+| ##  Users of SVBFG systems and equipment should have no    ##
+| ##  expectation of privacy as to any communication on or   ##
+| ##  information stored within the system. Unauthorized use ##
+| ##  of or access to this computer system and any equipment ##
+| ##  and violations of any SVBFG policies and procedures    ##
+| ##  related to SVBFG assets systems and information may    ##
+| ##  subject you to disciplinary action up to and including ##
+| ##  termination of employment and/or criminal prosecution. ##
+| ##                                                         ##
+| #############################################################
+End of banner message from server
+schava_r@dfw-scpz-imxgdb1-vip.ppdmz.local's password:
+Last login: Thu Aug 15 02:02:56 2024 from 10.101.14.205
+
+++++++++++++++++++++++++++++++++: System Data :+++++++++++++++++++++++++++++++
+Hostname: dfw-scpz-imxgdb1.ppdmz.local
+Address: 10.111.4.60
+Release: Red Hat Enterprise Linux Server release 7.9 (Maipo)
+Kernel: 3.10.0-1160.119.1.el7.x86_64
+Bash: bash-4.2.46-35.el7_9.x86_64
+
+top - 19:40:02 up 1 day, 18:50,  1 user,  load average: 6.61, 7.16, 6.16
+Tasks: 3241 total,   9 running, 3232 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  5.9 us,  2.8 sy,  0.0 ni, 91.1 id,  0.2 wa,  0.0 hi,  0.1 si,  0.0 st
+KiB Mem : 13191068+total,  2918644 free, 11850060+used, 10491436 buff/cache
+KiB Swap: 52428796 total, 46678796 free,  5750000 used.  7998668 avail Mem
+
+++++++++++++++++++++++++++: Maintenance Information :+++++++++++++++++++++++++
+No maintenance at this time.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                          ____  ____  ____  __  __ _____
+                         |  _ \|  _ \|  _ \|  \/  |__  /
+                         | |_) | |_) | | | | |\/| | / /
+                         |  __/|  __/| |_| | |  | |/ /_
+                         |_|   |_|   |____/|_|  |_/____|
+
+[PPDMZ schava_r@dfw-scpz-imxgdb1 ~]$ sudo su - oracle
+Last login: Fri Aug 16 19:25:51 MDT 2024
+[PPDMZ oracle@dfw-scpz-imxgdb1 ~]$ ps -ef|grep pmon
+oracle    2508  2116  0 19:45 pts/2    00:00:00 grep --color=auto pmon
+oracle   16242     1  0 Aug15 ?        00:00:12 asm_pmon_+ASM1
+oracle   16836     1  0 Aug15 ?        00:00:23 ora_pmon_TIMXSTG1
+oracle   18593     1  0 Aug15 ?        00:00:23 ora_pmon_TIMXUAT1
+oracle   20482     1  0 Aug15 ?        00:00:23 ora_pmon_ADUAT1
+oracle   20492     1  0 Aug15 ?        00:00:26 ora_pmon_IMXUAT1
+oracle   22417     1  0 Aug15 ?        00:00:23 ora_pmon_IMXSTG1
+oracle   25014     1  0 Aug15 ?        00:00:22 ora_pmon_TADUAT1
+[PPDMZ oracle@dfw-scpz-imxgdb1 ~]$ . oraenv
+ORACLE_SID = [oracle] ? IMXUAT1
+The Oracle base has been set to /u01/app/oracle
+[PPDMZ oracle@dfw-scpz-imxgdb1 ~]$ sqlplus "/as sysdba"
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Fri Aug 16 19:46:22 2024
+Version 19.23.0.0.0
+
+Copyright (c) 1982, 2023, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.23.0.0.0
+
+SQL> Select name,open_mode,database_role from v$database;
+
+NAME      OPEN_MODE            DATABASE_ROLE
+--------- -------------------- ----------------
+IMXUAT    READ WRITE           PRIMARY
+
+SQL> set linesize 100 pages 100 trimspool on numwidth 14
+col name format a25
+col owner format a15
+col "Used (GB)" format a15
+col "Free (GB)" format a15
+col "(Used) %" format a15
+col "Size (M)" format a15
+SELECT d.status "Status", d.tablespace_name "Name",
+TO_CHAR(NVL(a.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Size (GB)",
+TO_CHAR(NVL(a.bytes - NVL(SQL> f.bytes, 0), 0)/1024/1024 /1024,'99999999.99') "Used (GB)",
+SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4  TO_CHAR(NVL(f.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Free (GB)",
+TO_CHAR(NVL((a.bytes - NVL(f.bytes, 0)) / a.bytes * 100, 0), '990.00') "(Used) %"
+FROM sys.dba_tablespaces d,
+  5    6    7  (select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a,
+(select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) f WHERE
+  8    9  d.tablespace_name = a.tablespace_name(+) AND d.tablespace_name = f.tablespace_name(+) AND NOT
+(d.extent_management like 'LOCAL' AND d.contents like 'TEMPORARY')
+ 10   11  UNION ALL
+ 12  SELECT d.status
+ 13  "Status", d.tablespace_name "Name",
+ 14  TO_CHAR(NVL(a.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Size (GB)",
+ 15  TO_CHAR(NVL(t.bytes,0)/1024/1024 /1024,'99999999.99') "Used (GB)",
+TO_CHAR(NVL((a.bytes -NVL(t.bytes, 0)) / 1024 / 1024 /1024, 0),'99,999,990.90') "Free (GB)",
+ 16   17  TO_CHAR(NVL(t.bytes / a.bytes * 100, 0), '990.00') "(Used) %"
+FROM sys.dba_tablespaces d,
+ 18   19  (select tablespace_name, sum(bytes) bytes from dba_temp_files group by tablespace_name) a,
+ 20  (select tablespace_name, sum(bytes_cached) bytes from v$temp_extent_pool group by tablespace_name) t
+ 21  WHERE d.tablespace_name = a.tablespace_name(+) AND d.tablespace_name = t.tablespace_name(+) AND
+d.extent_management like 'LOCAL' AND d.contents like 'TEMPORARY'; 22
+
+Status    Name                      Size (GB)      Used (GB)       Free (GB)       (Used) %
+--------- ------------------------- -------------- --------------- --------------- ---------------
+ONLINE    SYSTEM                              3.89         3.46              0.43    89.06
+ONLINE    UNDOTBS2                           20.00          .09             19.91     0.46
+ONLINE    IMXDB_IAU                           0.20          .03              0.16    17.22
+ONLINE    SYSAUX                             22.96        21.77              1.19    94.83
+ONLINE    UNDOTBS1                           58.98        15.46             43.52    26.21
+ONLINE    IMXBUFFTBS                         21.05        14.88              6.17    70.69
+ONLINE    SVC_BIGID_DB_DATA                   1.00          .00              1.00     0.10
+ONLINE    IMXDATA                         1,114.14       970.14            144.00    87.08
+ONLINE    IMXDB_IAS_OPSS                      0.20          .05              0.15    25.53
+ONLINE    IMXINDEX                        1,161.52       946.08            215.44    81.45
+ONLINE    USERS                               0.00          .00              0.00    20.00
+ONLINE    IMXDB_WLS                           0.20          .01              0.19     4.16
+ONLINE    SOPAUTOMATIONIMX_DATA               1.00          .00              1.00     0.10
+ONLINE    TBS                                 0.00          .00              0.00    50.00
+ONLINE    IDQREADONLY_DATA                    1.00          .00              1.00     0.10
+ONLINE    SVC_SAILPOINT_ORACLEDB_DA           1.00          .00              1.00     0.10
+          TA
+
+ONLINE    RPA_BOT_DATA                        0.10          .00              0.10     1.00
+ONLINE    ODP_APP_IMX_DATA                    1.00          .00              1.00     0.10
+ONLINE    IMXDB_STB                           0.20          .00              0.19     0.84
+ONLINE    TEMP                              160.00        51.48            108.52    32.18
+ONLINE    IMXDB_IAS_TEMP                      0.20          .00              0.20     0.00
+
+21 rows selected.
+
+SQL> select tablespace_name, file_name, bytes / 1024/1024 MB from dba_data_files where tablespace_name='IMXUITEMP';
+
+no rows selected
+
+SQL> select tablespace_name,file_name,bytes/1024/1024 MB from dba_data_files where tablespace_name='IMXUITEMP';
+
+no rows selected
+
+SQL> select tablespace_name,file_name,bytes/1024/1024 MB from dba_data_files where tablespace_name='IMXDB9_WLS';
+
+no rows selected
+
+SQL> select tablespace_name,file_name,bytes/1024/1024 MB from dba_data_files where tablespace_name='IMXDB9_STB';
+
+no rows selected
+
+SQL> select tablespace_name,file_name,bytes/1024/1024 MB from dba_data_files where tablespace_name='IMXDB9_IAU';
+
+no rows selected
+
+SQL> select tablespace_name,file_name,bytes/1024/1024 MB from dba_data_files where tablespace_name='IMXDB9_IAS_OPS';
+
+no rows selected
+
+SQL> select tablespace_name,file_name,bytes/1024/1024 MB from dba_data_files where tablespace_name='IMXDB9_IAS_TEMP';
+
+no rows selected
+
+SQL> show parameter create;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+create_bitmap_area_size              integer     8388608
+create_stored_outlines               string
+db_create_file_dest                  string      +DATA_IMX
+db_create_online_log_dest_1          string
+db_create_online_log_dest_2          string
+db_create_online_log_dest_3          string
+db_create_online_log_dest_4          string
+db_create_online_log_dest_5          string
+SQL> create tablespace IMXUITEMP  size 8g autoextend on next 100m maxsize unlimited;
+create tablespace IMXUITEMP  size 8g autoextend on next 100m maxsize unlimited
+                             *
+ERROR at line 1:
+ORA-02180: invalid option for CREATE TABLESPACE
+
+
+SQL> create tablespace IMXUITEMP add datafile '+DATA_IMX' size 8g autoextend on next 100m maxsize unlimited;
+create tablespace IMXUITEMP add datafile '+DATA_IMX' size 8g autoextend on next 100m maxsize unlimited
+                            *
+ERROR at line 1:
+ORA-02180: invalid option for CREATE TABLESPACE
+
+
+SQL> create tablespace IMXUITEMP datafile '+DATA_IMX' size 4g autoextend on next 100m maxsize unlimited;
+
+Tablespace created.
+
+SQL> alter tablespace IMXUITEMP add datafile size 4g autoextend on next 100m maxsize unlimited;
+
+Tablespace altered.
+
+SQL> col file_name for a60
+set lines 200
+SELECT file_name, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’ ’;SQL> SQL>
+SELECT file_name, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’ ’
+                                                                                            *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> col file_name for a60
+set lines 200
+SELECT file_name, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’ ’;SQL> SQL>
+SELECT file_name, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’
+  3
+SQL>
+SQL> col file_name for a60
+set lines 200
+SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’IMXUITEMP’;
+  2
+SQL> /
+SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’I
+                                                                                              *
+ERROR at line 1:
+ORA-00904: "???I": invalid identifier
+
+
+SQL> SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’IMXUITEMP’;
+SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name =’IMXUITEMP’
+                                                                                              *
+ERROR at line 1:
+ORA-00904: "???IMXUITEMP???": invalid identifier
+
+
+SQL> SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_data_files WHERE tablespace_name='IMXUITEMP';
+
+FILE_NAME                                                           FILE_ID       Total MB
+------------------------------------------------------------ -------------- --------------
++DATA_IMX/IMXUAT_DBG/DATAFILE/imxuitemp.382.1177186325                   97           4096
++DATA_IMX/IMXUAT_DBG/DATAFILE/imxuitemp.383.1177186413                   98           4096
+
+SQL> set lines 113
+select name,
+round((total_mb-free_mb)/1024) USED_GB,
+round(free_mb/1024) FREE_GB,
+round(total_mb/1024) TOTAL_GB,
+round(free_mb/total_mb*100) "FREE_%"
+from v$asm_diskgroup order by name;SQL>   2    3    4    5    6
+
+NAME                             USED_GB        FREE_GB       TOTAL_GB         FREE_%
+------------------------- -------------- -------------- -------------- --------------
+DATA_AD                             2230            370           2600             14
+DATA_CLONE                             0            400            400            100
+DATA_IMX                            2650            950           3600             26
+MGMT                                  30             60             90             67
+OCR                                    1             59             60             99
+RECOVERY01                            16            184            200             92
+RECOVERY02                             0            200            200            100
+REDO01                                36              4             40              9
+REDO02                                36              4             40              9
+TEMP_DATA_AD                        2233            167           2400              7
+TEMP_DATA_IMX                       2651            549           3200             17
+TEMP_RECOVERY                         50            350            400             88
+
+12 rows selected.
+
+SQL> select TABLESPACE_NAME,tablespace_size/1024/1024/1024 totalGB,ALLOCATED_SPACE/1024/1024/1024 AllocSpaceGB,free_space/1024/1024/1024 FreeSpaceGB
+from dba_temp_free_space ;
+  2
+TABLESPACE_NAME                       TOTALGB   ALLOCSPACEGB    FREESPACEGB
+------------------------------ -------------- -------------- --------------
+IMXDB_IAS_TEMP                       .1953125    .0009765625    .1943359375
+TEMP                           159.9999237061 53.61906433105 159.1357421875
+
+SQL> col file_name for a60
+set lines 200
+SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_temp_files WHERE tablespace_name ='TEMP';
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_temp_files WHERE tablespace_name ='TEMP';
+
+FILE_NAME                                                           FILE_ID       Total MB
+------------------------------------------------------------ -------------- --------------
++DATA_IMX/IMXUAT_DBG/TEMPFILE/temp.367.1167344627                         5   32767.984375
++DATA_IMX/IMXUAT_DBG/TEMPFILE/temp.368.1167344627                         4   32767.984375
++DATA_IMX/IMXUAT_DBG/TEMPFILE/temp.369.1167344627                         3   32767.984375
++DATA_IMX/IMXUAT_DBG/TEMPFILE/temp.370.1167344627                         2   32767.984375
++DATA_IMX/IMXUAT_DBG/TEMPFILE/temp.371.1167344627                         1   32767.984375
+
+SQL> show parameter create;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+create_bitmap_area_size              integer     8388608
+create_stored_outlines               string
+db_create_file_dest                  string      +DATA_IMX
+db_create_online_log_dest_1          string
+db_create_online_log_dest_2          string
+db_create_online_log_dest_3          string
+db_create_online_log_dest_4          string
+db_create_online_log_dest_5          string
+SQL> create temporary tablespace IMXDB9_IAS_TEMP tempfile '+DATA_IMX' size 100M;
+
+Tablespace created.
+
+SQL> set lines 113
+select name,
+round((total_mb-free_mb)/1024) USED_GB,
+round(free_mb/1024) FREE_GB,
+round(total_mb/1024) TOTAL_GB,
+round(free_mb/total_mb*100) "FREE_%"
+from v$asm_diskgroup order by name;SQL>   2    3    4    5    6
+
+NAME                             USED_GB        FREE_GB       TOTAL_GB         FREE_%
+------------------------- -------------- -------------- -------------- --------------
+DATA_AD                             2230            370           2600             14
+DATA_CLONE                             0            400            400            100
+DATA_IMX                            2650            950           3600             26
+MGMT                                  30             60             90             67
+OCR                                    1             59             60             99
+RECOVERY01                            16            184            200             92
+RECOVERY02                             0            200            200            100
+REDO01                                36              4             40              9
+REDO02                                36              4             40              9
+TEMP_DATA_AD                        2233            167           2400              7
+TEMP_DATA_IMX                       2651            549           3200             17
+TEMP_RECOVERY                         50            350            400             88
+
+12 rows selected.
+
+SQL> select TABLESPACE_NAME,tablespace_size/1024/1024/1024 totalGB,ALLOCATED_SPACE/1024/1024/1024 AllocSpaceGB,free_space/1024/1024/1024 FreeSpaceGB
+from dba_temp_free_space ;
+  2
+TABLESPACE_NAME                       TOTALGB   ALLOCSPACEGB    FREESPACEGB
+------------------------------ -------------- -------------- --------------
+IMXDB9_IAS_TEMP                     .09765625    .0009765625    .0966796875
+IMXDB_IAS_TEMP                       .1953125    .0009765625    .1943359375
+TEMP                           159.9999237061 53.61906433105   159.98828125
+
+SQL> select    TABLESPACE_NAME,tablespace_size/1024/1024/1024 totalGB,ALLOCATED_SPACE/1024/1024/1024 AllocSpaceGB,free_space/1024/1024/1024 FreeSpaceGB
+from dba_temp_free_space ;  2
+
+TABLESPACE_NAME                       TOTALGB   ALLOCSPACEGB    FREESPACEGB
+------------------------------ -------------- -------------- --------------
+IMXDB9_IAS_TEMP                     .09765625    .0009765625    .0966796875
+IMXDB_IAS_TEMP                       .1953125    .0009765625    .1943359375
+TEMP                           159.9999237061 53.61906433105   159.98828125
+
+SQL> col file_name for a60
+set lines 200
+SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_temp_files WHERE tablespace_name ='IMXDB9_IAS_TEMP';
+SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_temp_files WHERE tablesp'IMXDB9_IAS_TEMP'
+                                                                                    *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> SELECT file_name,file_id, BYTES/1048576 "Total MB" FROM dba_temp_files WHERE tablespace_name='IMXDB9_IAS_TEMP';
+
+FILE_NAME                                                           FILE_ID       Total MB
+------------------------------------------------------------ -------------- --------------
++DATA_IMX/IMXUAT_DBG/TEMPFILE/imxdb9_ias_temp.384.1177188559              7            100
+
+SQL> show parameters create;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+create_bitmap_area_size              integer     8388608
+create_stored_outlines               string
+db_create_file_dest                  string      +DATA_IMX
+db_create_online_log_dest_1          string
+db_create_online_log_dest_2          string
+db_create_online_log_dest_3          string
+db_create_online_log_dest_4          string
+db_create_online_log_dest_5          string
+SQL> create tablespace IMXDB9_WLS datafile '+DATA_IMX' size 100M autoextend on next 100m maxsize unlimited;
+
+Tablespace created.
+
+SQL> set linesize 100 pages 100 trimspool on numwidth 14
+col name format a25
+col owner format a15
+col "Used (GB)" format a15
+col "Free (GB)" format a15
+col "(Used) %" format a15
+col "Size (M)" format a15
+SELECT d.status "Status", d.tablespace_name "Name",
+TO_CHAR(NVL(a.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Size (GB)",
+TO_CHAR(NVL(a.bytes - NVL(f.bytes, 0), 0)/1024/1024 /1024,'99999999.99') "Used (GB)",
+TO_CHAR(NVL(f.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Free (GB)",
+TO_CHAR(NVL((a.bytes - NVL(f.bytes, 0)) / a.bytes * 100, 0), '990.00') "(Used) %"
+FROM sys.dba_tablespaces d,
+(select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a,
+(select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) f WHERE
+d.tablespace_name = a.tablespace_name(+) AND d.tablespace_name = f.tablespace_name(+) AND NOT
+(d.extent_management like 'LOCAL' AND d.contents like 'TEMPORARY')
+UNION ALL
+SELECT d.status
+"Status", d.tablespace_name "Name",
+TO_CHAR(NVL(a.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Size (GB)",
+TO_CHAR(NVL(t.bytes,0)/1024/1024 /1024,'99999999.99') "Used (GB)",
+TO_CHAR(NVL((a.bytes -NVL(t.bytes, 0)) / 1024 / 1024 /1024, 0),'99,999,990.90') "Free (GB)",
+SQL> TO_CHAR(NVL(t.bytes / a.bytes * 100, 0), '990.00') "(Used) %"
+FROM sys.dba_tablespaces d,
+(select tablespace_name, sum(bytes) bytes from dba_temp_files group by tablespace_name) a,
+SQL> (select tablespace_name, sum(bytes_cached) bytes from v$temp_extent_pool group by tablespace_name) t
+WHERE d.tablespace_name = a.tablespace_name(+) AND d.tablespace_name = t.tablespace_name(+) AND
+d.extent_management like 'LOCAL' AND d.contents like 'TEMPORARY';SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22
+
+Status    Name                      Size (GB)      Used (GB)       Free (GB)       (Used) %
+--------- ------------------------- -------------- --------------- --------------- ---------------
+ONLINE    SYSTEM                              3.89         3.46              0.43    89.06
+ONLINE    UNDOTBS2                           20.00          .10             19.90     0.49
+ONLINE    IMXDB_IAU                           0.20          .03              0.16    17.22
+ONLINE    SYSAUX                             22.96        21.78              1.18    94.88
+ONLINE    UNDOTBS1                           58.98        18.95             40.03    32.13
+ONLINE    IMXBUFFTBS                         21.05        14.88              6.17    70.69
+ONLINE    SVC_BIGID_DB_DATA                   1.00          .00              1.00     0.10
+ONLINE    IMXDB9_WLS                          0.10          .00              0.10     1.00
+ONLINE    IMXDATA                         1,114.14       970.32            143.83    87.09
+ONLINE    IMXDB_IAS_OPSS                      0.20          .05              0.15    25.53
+ONLINE    IMXINDEX                        1,161.52       946.14            215.38    81.46
+ONLINE    USERS                               0.00          .00              0.00    20.00
+ONLINE    IMXDB_WLS                           0.20          .01              0.19     4.16
+ONLINE    SOPAUTOMATIONIMX_DATA               1.00          .00              1.00     0.10
+ONLINE    IMXUITEMP                           8.00          .00              8.00     0.02
+ONLINE    TBS                                 0.00          .00              0.00    50.00
+ONLINE    IDQREADONLY_DATA                    1.00          .00              1.00     0.10
+ONLINE    SVC_SAILPOINT_ORACLEDB_DA           1.00          .00              1.00     0.10
+          TA
+
+ONLINE    RPA_BOT_DATA                        0.10          .00              0.10     1.00
+ONLINE    ODP_APP_IMX_DATA                    1.00          .00              1.00     0.10
+ONLINE    IMXDB_STB                           0.20          .00              0.19     0.84
+ONLINE    TEMP                              160.00        51.48            108.52    32.18
+ONLINE    IMXDB9_IAS_TEMP                     0.10          .00              0.10     0.00
+ONLINE    IMXDB_IAS_TEMP                      0.20          .00              0.20     0.00
+
+24 rows selected.
+
+SQL> set lines 113
+select name,
+round((total_mb-free_mb)/1024) USED_GB,
+round(free_mb/1024) FREE_GB,
+round(total_mb/1024) TOTAL_GB,
+round(free_mb/total_mb*100) "FREE_%"
+from v$asm_diskgroup order by name;
+SQL>   2    3    4    5    6
+NAME                             USED_GB        FREE_GB       TOTAL_GB         FREE_%
+------------------------- -------------- -------------- -------------- --------------
+DATA_AD                             2230            370           2600             14
+DATA_CLONE                             0            400            400            100
+DATA_IMX                            2650            950           3600             26
+MGMT                                  30             60             90             67
+OCR                                    1             59             60             99
+RECOVERY01                            16            184            200             92
+RECOVERY02                             0            200            200            100
+REDO01                                36              4             40              9
+REDO02                                36              4             40              9
+TEMP_DATA_AD                        2233            167           2400              7
+TEMP_DATA_IMX                       2651            549           3200             17
+TEMP_RECOVERY                         50            350            400             88
+
+12 rows selected.
+
+SQL> create tablespace IMXDB9_STB datafile '+DATA_IMX' size 100M autoextend on next 100m maxsize unlimited;
+
+Tablespace created.
+
+SQL> create tablespace IMXDB9_IAU datafile '+DATA_IMX' size 100M autoextend on next 100m maxsize unlimited;
+
+Tablespace created.
+
+SQL> create tablespace IMXDB9_IAS_OPS datafile '+DATA_IMX' size 100M autoextend on next 100m maxsize unlimited;
+
+Tablespace created.
+
+SQL> set linesize 100 pages 100 trimspool on numwidth 14
+col name format a25
+col owner format a15
+col "Used (GB)" format a15
+col "Free (GB)" format a15
+col "(Used) %" format a15
+col "Size (M)" format a15
+SELECT d.status "Status", d.tablespace_name "Name",
+TO_CHAR(NVL(a.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Size (GB)",
+TO_CHAR(NVL(a.bytes - NVL(f.bytes, 0), 0)/1024/1024 /1024,'99999999.99') "Used (GB)",
+TO_CHAR(NVL(f.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Free (GB)",
+TO_CHAR(NVL((a.bytes - NVL(f.bytes, 0)) / a.bytes * 100, 0), '990.00') "(Used) %"
+FROM sys.dba_tablespaces d,
+(select tablespace_name, sum(bytes) bytes from dba_data_files group by tablespace_name) a,
+(select tablespace_name, sum(bytes) bytes from dba_free_space group by tablespace_name) f WHERE
+d.tablespace_name = a.tablespace_name(+) AND d.tablespace_name = f.tablespace_name(+) AND NOT
+(d.extent_management like 'LOCAL' AND d.contents like 'TEMPORARY')
+UNION ALL
+SELECT d.status
+"Status", d.tablespace_name "Name",
+TO_CHAR(NVL(a.bytes / 1024 / 1024 /1024, 0),'99,999,990.90') "Size (GB)",
+TO_CHAR(NVL(t.bytes,0)/1024/1024 /1024,'99999999.99') "Used (GB)",
+TO_CHAR(NVL((a.bytes -NVL(t.bytes, 0)) / 1024 / 1024 /1024, 0),'99,999,990.90') "Free (GB)",
+TO_CHAR(NVL(t.bytes / a.bytes * 100, 0), '990.00') "(Used) %"
+FROM sys.dba_tablespaces d,
+(select tablespace_name, sum(bytes) bytes from dba_temp_files group by tablespace_name) a,
+(select tablespace_name, sum(bytes_cached) bytes from v$temp_extent_pool group by tablespace_name) t
+WHERE d.tablespace_name = a.tablespace_name(+) AND d.tablespace_name = t.tablespace_name(+) AND
+d.extent_management like 'LOCAL' AND d.contents like 'TEMPORARY';SQL> SQL> SQL> SQL> SQL> SQL> SQL>   2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22
+
+Status    Name                      Size (GB)      Used (GB)       Free (GB)       (Used) %
+--------- ------------------------- -------------- --------------- --------------- ---------------
+ONLINE    SYSTEM                              3.89         3.46              0.43    89.06
+ONLINE    UNDOTBS2                           20.00          .10             19.90     0.49
+ONLINE    IMXDB_IAU                           0.20          .03              0.16    17.22
+ONLINE    SYSAUX                             22.96        21.78              1.18    94.88
+ONLINE    UNDOTBS1                           58.98        18.95             40.03    32.13
+ONLINE    IMXBUFFTBS                         21.05        14.88              6.17    70.69
+ONLINE    SVC_BIGID_DB_DATA                   1.00          .00              1.00     0.10
+ONLINE    IMXDB9_WLS                          0.10          .00              0.10     1.00
+ONLINE    IMXDATA                         1,114.14       970.32            143.83    87.09
+ONLINE    IMXDB_IAS_OPSS                      0.20          .05              0.15    25.53
+ONLINE    IMXINDEX                        1,161.52       946.14            215.38    81.46
+ONLINE    IMXDB9_IAS_OPS                      0.10          .00              0.10     1.00
+ONLINE    USERS                               0.00          .00              0.00    20.00
+ONLINE    IMXDB_WLS                           0.20          .01              0.19     4.16
+ONLINE    SOPAUTOMATIONIMX_DATA               1.00          .00              1.00     0.10
+ONLINE    IMXUITEMP                           8.00          .00              8.00     0.02
+ONLINE    IMXDB9_STB                          0.10          .00              0.10     1.00
+ONLINE    TBS                                 0.00          .00              0.00    50.00
+ONLINE    IDQREADONLY_DATA                    1.00          .00              1.00     0.10
+ONLINE    SVC_SAILPOINT_ORACLEDB_DA           1.00          .00              1.00     0.10
+          TA
+
+ONLINE    RPA_BOT_DATA                        0.10          .00              0.10     1.00
+ONLINE    ODP_APP_IMX_DATA                    1.00          .00              1.00     0.10
+ONLINE    IMXDB_STB                           0.20          .00              0.19     0.84
+ONLINE    IMXDB9_IAU                          0.10          .00              0.10     1.00
+ONLINE    TEMP                              160.00        51.48            108.52    32.18
+ONLINE    IMXDB9_IAS_TEMP                     0.10          .00              0.10     0.00
+ONLINE    IMXDB_IAS_TEMP                      0.20          .00              0.20     0.00
+
+27 rows selected.
+
+SQL>
