@@ -1,0 +1,3 @@
+-============================================= GATHER_TABLE_STATS=======================
+ 
+exec DBMS_STATS.GATHER_TABLE_STATS(ownname=>'DATA_CNTRL_REPO',TABNAME=>'ERR_REJ_TBL',cascade=>TRUE,degree=>16,estimate_percent=>DBMS_STATS.AUTO_SAMPLE_SIZE,method_opt=>'FOR ALL INDEXED COLUMNS size skewonly');
