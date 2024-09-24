@@ -1,0 +1,21 @@
+
+--kill session
+
+
+
+
+
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+Select name,open_mode,database_role from v$database;
+
+select 'alter system kill session ' || '''' || sid || ',' || serial# ||',@'|| inst_id || '''' || ' immediate;' from gv$session where status='INACTIVE'
+and  OSUSER='svc.sdp-connect';
+
+select 'alter system kill session ' || '''' || sid || ',' || serial# ||',@'|| inst_id || '''' || ' immediate;' from gv$session where status='INACTIVE' 
+and USERNAME='SARSIKERESHA	';
+
+select 'alter system kill session ' || '''' || sid || ',' || serial# ||',@'|| inst_id || '''' || ' immediate;' from gv$session where status='INACTIVE'
+and  OSUSER='svc.sdp-connect' and USERNAME='ZHAWANG';;
+
+alter system kill session '8,52595,' immediate;
