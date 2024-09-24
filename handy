@@ -9,3 +9,10 @@ AND profile = (SELECT profile FROM dba_users WHERE username = 'OCHADM');
 SELECT profile, resource_name, limit
 FROM dba_profiles
 WHERE profile = 'PROFILE_NAME';
+
+
+
+SELECT profile, resource_name, limit
+FROM dba_profiles
+WHERE profile = 'DEFAULT'
+AND resource_name = 'SESSIONS_PER_USER';
