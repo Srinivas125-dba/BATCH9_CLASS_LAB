@@ -1,0 +1,4 @@
+SELECT profile, resource_name, limit
+FROM dba_profiles
+WHERE resource_name = 'SESSIONS_PER_USER'
+AND profile = (SELECT profile FROM dba_users WHERE username = 'OCHADM');
