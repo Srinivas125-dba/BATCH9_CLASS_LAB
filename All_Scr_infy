@@ -1,0 +1,246 @@
+
+--Passowrd reset:
+===============
+ 
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+Select name,open_mode,database_role from v$database;
+ 
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='BATCH_ADMIN';
+BATCH_ADMIN
+ -- WORKFLOW_ADMIN SCHEDULER_ADMIN WORKFLOW_ADMIN
+ 
+select distinct GRANTED_ROLE from dba_role_privs where grantee='BATCH_ADMIN';
+
+grant APP_SUPPORT_READONLY to BATCH_ADMIN;
+
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='CASE_ADMIN'; 
+
+ select distinct GRANTED_ROLE from dba_role_privs where grantee='CASE_ADMIN';
+ 
+grant APP_SUPPORT_READONLY to CASE_ADMIN;
+
+
+select DBMS_METADATA.GET_DDL('USER','SSUNDARA') from dual;
+ 
+ALTER USER SSUNDARA IDENTIFIED BY "****************";
+ 
+ 
+ ----------------------------------------
+ 
+ --Revoke User role from database:
+=============================
+TRANSACTIONS
+
+set line 300 pages 300
+col INSTANCE_NAME for a15
+col HOST_NAME for a35
+select INSTANCE_NAME,HOST_NAME,open_mode,CURRENT_DATE,database_role from dual,v$instance,v$database;
+ 
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+Select name,open_mode,database_role from v$database;
+
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='SPARIMI';
+ 
+select distinct GRANTED_ROLE from dba_role_privs where grantee='PPALANIAPPAN';
+ 
+revoke APP_SUPPORT_READONLY from KKARISHMA;
+revoke CONNECT from PORAMAN;
+
+revoke EDW_ALL_RDONLYRL from ICHERY;
+
+ 
+select distinct GRANTED_ROLE from dba_role_privs where grantee='NROGERS';
+
+grant APP_SUPPORT_READONLY to WORKFLOW_ADMIN;
+ 
+ 
+--Drop User from Database:
+========================
+ 
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+Select name,open_mode,database_role from v$database;
+ 
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='RSOMASUNDARA';
+ 
+drop user RSOMASUNDARA;
+ 
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='GFLORES1';
+
+sent mail to 
+IAM Program office <IAMProgramoffice@svb.com>
+
+As per the IdentityIQ Access Request TASK2744688 the said user Account is Deleted  from ABSONI as per the below db details.
+--------------------------------------------------------------------------------
+
+
+--============================================= GATHER_TABLE_STATS=======================
+ 
+exec DBMS_STATS.GATHER_TABLE_STATS(ownname=>'PSGL',TABNAME=>'PS_SVB_MAP_P_ACCT',cascade=>TRUE,degree=>16,estimate_percent=>DBMS_STATS.AUTO_SAMPLE_SIZE,method_opt=>'FOR ALL INDEXED COLUMNS size skewonly');
+
+===============================================================
+
+USER CREATION: NORMAL REQUEST 
+
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+Select name,open_mode,database_role from v$database;
+
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='NROGERS';
+
+CREATE USER NROGERS IDENTIFIED BY DlmaFl8lth$21lRu9uNL DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP PROFILE USERS;
+
+GRANT APP_SUPPORT_READONLY to NROGERS;
+GRANT CREATE SESSION TO NROGERS;
+GRANT CONNECT, RESOURCE to NROGERS;
+GRANT EDW_ALL_REGION_RDONLYRL,EDW_ALL_RDONLYRL,EDW_RESTRICTED_PII_IDS,EDW_RESTRICTED_PII_ACCT_CIF  to NROGERS;
+
+
+fOR EDW CREATION 
+
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+Select name,open_mode,database_role from v$database;
+
+set lines 300 pages 300 long 9999
+col USERNAME for a25;
+select USERNAME,ACCOUNT_STATUS,EXPIRY_DATE,CREATED from dba_users where USERNAME='CHA';
+
+CREATE USER CHA IDENTIFIED BY ***************** DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP PROFILE USERS;
+
+GRANT CREATE SESSION TO CHA;
+GRANT EDW_ALL_REGION_RDONLYRL,EDW_ALL_RDONLYRL to LMATHEWPAUL;
+GRANT CONNECT, RESOURCE to OPARIDA;
+
+===================================================================================
+
+                                                                       
+                                    PROVISION DATABASE
+1. Issue Description:User Requested for Provision Database Access : yes
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary:Provision Database Access successfully and password shared through Teams.
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+======================================PASSWORD RESET =============================================
+1. Issue Description: User Requested for password Reset
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: password reset successfully and password shared through Teams.
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+====================================REVOKE ACCESS=========================================
+
+Issue Description: IdentityIQ Access Request Catalog Task
+Any dependencies/delays in providing resolution (Yes/No) : No
+Resolution Summary: Needful Done.
+Issue/Task resolved as per request (Yes/No): yes
+User confirmation obtained on provided resolution (Yes/No?) : Yes
+Transferring ticket :No
+===============================TRACE FILED /U01=================================================
+
+1. Issue Description: No space left on device
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: we are cleared the trace files
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+=================================SCRIPT EXECUTION====================================
+
+1. Issue Description: script Execution 
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: script exection is completed 
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+====================================KILL SESSIONS=============================================
+
+User confirmed close the task.
+1. Issue Description: Kill session
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary:Inactive sessions has been killed.
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) : Yes
+6. Transferring ticket :No
+
+==================================DROP USER=================================================
+
+1. Issue Description: Drop user
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: As per request user Drop from DB.
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :NA
+6. Transferring ticket :No
+
+====================================GATHER STATS=====================================================
+1. Issue Description: Gather stats
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: succesfully gathered stats.
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+========================================================================
+
+1. Issue Description: User unable to login into database 
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: Provided the correct details to login and now user is able to login
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+===============================================================================================
+
+1. Issue Description: provide an access to table 
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: Grants access is provided to user  
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+--------------------------------------------------------------
+1. Issue Description: tablespace error
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: succesfully added datafile to tablespace 
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+------------------------------------------------------------------------
+
+1. Issue Description: role access
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: succesfully added access to user  
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+---------------------------------------------------------------------------
+
+1. Issue Description: Grant  access
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary: succesfully added grant access to user  
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
+
+---------------------------------------------
+
+1. Issue Description: AWR Report
+2. Any dependencies/delays in providing resolution (Yes/No) : No
+3. Resolution Summary:.AWR Report successfully completed 
+4. Issue/Task resolved as per request (Yes/No): yes
+5. User confirmation obtained on provided resolution (Yes/No?) :Yes
+6. Transferring ticket :No
