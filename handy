@@ -16,3 +16,14 @@ SELECT profile, resource_name, limit
 FROM dba_profiles
 WHERE profile = 'DEFAULT'
 AND resource_name = 'SESSIONS_PER_USER';
+
+--- Default value finding
+SQL> SELECT profile, resource_name, limit
+FROM dba_profiles
+WHERE resource_name = 'SESSIONS_PER_USER'
+AND profile = (SELECT profile FROM dba_users WHERE username = 'GWACCOUNTS');
+
+  2    3    4
+PROFILE              RESOURCE_NAME             LIMIT
+-------------------- ------------------------- --------------------
+USERS                SESSIONS_PER_USER         10
